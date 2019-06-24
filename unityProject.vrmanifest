@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.virtualclassroom.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "E:\\VR classroom\\TCNJ-VRLab-Virtual_Classroom\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "Virtual Classroom [Testing]"
+        }
+      }
+    }
+  ]
+}
