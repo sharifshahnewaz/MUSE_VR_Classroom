@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.virtualclassroom.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\tametaj1\\Desktop\\Github\\MUSE_VR_Classroom\\actions.json",
+      "action_manifest_path": "E:\\MUSE_VR_Classroom\\actions.json",
       "strings": {
         "en_us": {
           "name": "Virtual Classroom [Testing]"
