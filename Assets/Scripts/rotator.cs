@@ -12,8 +12,9 @@ public class rotator : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void FixedUpdate()
+    { // update runs based on frame rate.
+        // fixed update based on physics engine.
         this.transform.Rotate(0f,0f, speed);
     }
 }

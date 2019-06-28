@@ -43,6 +43,7 @@ public class changeClassroom : MonoBehaviour
                     {
                         camera.transform.position = position1.transform.position;
                         camera.transform.rotation = position1.transform.rotation;
+                        camera.transform.Rotate(0, 90f, 0);
                     }
                     if (classRoomSelector == 2)
                     {
@@ -55,6 +56,11 @@ public class changeClassroom : MonoBehaviour
             case 2: // Changing the Materials of the Classroom Walls
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
+                    Color color1 = new Color(255f, 255f, 255f);
+                    Color color2 = new Color(255f, 255f, 255f);
+                    Color color3 = new Color(255f, 255f, 255f);
+                    Color color4 = new Color(255f, 255f, 255f);
+                    Color color5 = new Color(255f, 255f, 255f);
                     if (Input.GetKeyDown("right"))
                         colorSelector++;
                     if (Input.GetKeyDown("left"))
@@ -101,7 +107,7 @@ public class changeClassroom : MonoBehaviour
                         seatSelector++;
                     if (Input.GetKeyDown("left"))
                         seatSelector--;
-                    if (seatSelector < 0)
+                    if (seatSelector < 0) // selection between the five total choices for the classroom seating positions
                         seatSelector = 0;
                     if (seatSelector > 4)
                         seatSelector = 4;
@@ -111,13 +117,15 @@ public class changeClassroom : MonoBehaviour
                             
                                 camera.transform.position = mPositions[seatSelector].transform.position;
                                 camera.transform.rotation = mPositions[seatSelector].transform.rotation;
+                            camera.transform.Rotate(0, 90f, 0);
                             break;
                         case 2: // seat positions if chosen the second classroom
 
                             camera.transform.position = lPositions[seatSelector].transform.position;
                             camera.transform.rotation = lPositions[seatSelector].transform.rotation;
-                            camera.transform.rotation = lPositions[seatSelector].transform.rotation;
-                            camera.transform.Rotate(0,-90f,0);
+                            // second classroom objects are prefabbed so that they face 90 degrees to the right
+                            camera.transform.Rotate(0, -90f, 0);
+                            camera.transform.Translate(0, -1f, 0);
                             break;
                     }
                 }
