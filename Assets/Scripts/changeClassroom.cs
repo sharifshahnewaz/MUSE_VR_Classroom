@@ -107,9 +107,9 @@ public class changeClassroom : MonoBehaviour
                             material3.color = Color.blue;
                             break;
                         case 5:
-                            material1.color = Color.green;
-                            material2.color = Color.green;
-                            material3.color = Color.green;
+                            material1.color = Color.magenta;
+                            material2.color = Color.magenta;
+                            material3.color = Color.magenta;
                             break;
                     }
                 }
