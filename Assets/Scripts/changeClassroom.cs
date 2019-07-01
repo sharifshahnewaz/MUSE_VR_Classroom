@@ -5,7 +5,7 @@ using UnityEngine;
 public class changeClassroom : MonoBehaviour
 {
     public GameObject camera, position1, position2;
-    public int classRoomCounter;
+    public int classRoomCounter = 1;
     public int classRoomSelector,
         colorSelector,
         seatSelector;
@@ -14,9 +14,18 @@ public class changeClassroom : MonoBehaviour
     public GameObject lPosition1, lPosition2, lPosition3, lPosition4, lPosition5;
 
     public GameObject[] mPositions, lPositions;
+
+
+    public TextMesh promptText; // prompt text object
     // Start is called before the first frame update
     void Start()
     {
+        promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
+
+        promptText.text = "Use The Arrow Keys To Select\n" +
+            "A Classroom That You Like!\n" +
+            "Press the Space Bar when you\n" +
+            "are finished.";
         classRoomCounter = 1;
         seatSelector = 1;
     }
@@ -29,7 +38,9 @@ public class changeClassroom : MonoBehaviour
         GameObject[] lPositions = new GameObject[]{ lPosition1, lPosition2, lPosition3, lPosition4, lPosition5 };
         if (Input.GetKeyDown("space")) // The actual selection process.
             classRoomCounter++;
-
+        if (classRoomCounter > 3)
+            promptText.text = "";
+        
         switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
@@ -54,6 +65,10 @@ public class changeClassroom : MonoBehaviour
             break;
 
             case 2: // Changing the Materials of the Classroom Walls
+                promptText.text = "Use The Arrow Keys To Select\n" +
+          "A Color That You Like!\n" +
+          "Press the Space Bar when you\n" +
+          "are finished.";
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     Color color1 = new Color(255f, 255f, 255f);
@@ -101,6 +116,10 @@ public class changeClassroom : MonoBehaviour
             break;
 
             case 3: // Changing the seating location
+                promptText.text = "Use The Arrow Keys To Select\n" +
+         "A Seat That You Like!\n" +
+         "Press the Space Bar when you\n" +
+         "are finished.";
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     if (Input.GetKeyDown("right"))
