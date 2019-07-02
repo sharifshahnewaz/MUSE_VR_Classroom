@@ -12,11 +12,9 @@ public class changeClassroom : MonoBehaviour
     public Material material1, material2, material3;
     public GameObject mPosition1, mPosition2, mPosition3, mPosition4, mPosition5;
     public GameObject lPosition1, lPosition2, lPosition3, lPosition4, lPosition5;
-
     public GameObject[] mPositions, lPositions;
-
-
     public TextMesh promptText; // prompt text object
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,16 +29,24 @@ public class changeClassroom : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         GameObject[] mPositions = new GameObject[]{ mPosition1, mPosition2, mPosition3, mPosition4, mPosition5 };
         GameObject[] lPositions = new GameObject[]{ lPosition1, lPosition2, lPosition3, lPosition4, lPosition5 };
         if (Input.GetKeyDown("space")) // The actual selection process.
+        {
+
             classRoomCounter++;
-        if (classRoomCounter > 3)
-            promptText.text = "";
-        
+
+            if (classRoomCounter == 4)
+            {
+                promptText.text = "";
+
+            }
+        }
+
+
         switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
@@ -150,6 +156,7 @@ public class changeClassroom : MonoBehaviour
                 }
                 break;
         }
+
     }
 }
 

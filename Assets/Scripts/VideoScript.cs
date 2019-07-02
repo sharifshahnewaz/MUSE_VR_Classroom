@@ -16,7 +16,7 @@ public class VideoScript : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         GameObject classRoomPrompt = GameObject.Find("[CameraRig]");
         changeClassroom cs = classRoomPrompt.GetComponent<changeClassroom>();
