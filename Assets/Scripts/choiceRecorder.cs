@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -8,45 +9,57 @@ public class choiceRecorder : MonoBehaviour
     // loads in the gameObject CRP and the  changeClassroomScript to access the classroomcounter/choices
     public GameObject classRoomPrompt;
     private changeClassroom cs;
-    private int counter;
 
     private StringBuilder sb = new StringBuilder();
     private double elapsedTime = 0.0f;
 
-    private System.Timers.Timer aTimer = new System.Timers.Timer();
-    
-
+    private long startTime;
     // Start is called before the first frame update
     void Start()
     {
-        aTimer.Interval = 1000;
-        aTimer.Enabled = true;
 
         classRoomPrompt = GameObject.Find("[CameraRig]");
          cs = classRoomPrompt.GetComponent<changeClassroom>();
 
-        sb.Append("System Time,Elapsed Time,Event\n");
+        sb.Append("System Time,Elapsed Time,Event,Customization\n");
+        startTime = System.DateTime.Now.Ticks/System.TimeSpan.TicksPerMillisecond;
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         
-        if(Input.GetKeyDown("space"))
-        {
-            sb.Append(System.DateTime.Now.Ticks.ToString()+","+ aTimer.Elapsed + ", Made Selection " + cs.classRoomCounter + "\n");
-        }
 
-        elapsedTime += (0.02f);
     }
 
+    public void choseRecord(int step, int value)
+    {
+        long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+
+        sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime)+",");
+        switch (step)
+        {
+
+            case 1:
+                sb.Append(  value + ", Chose Classroom\n");
+                break;
+            case 2:
+                sb.Append(value + ", Chose Color\n");
+                break;
+            case 3:
+                sb.Append(value + ", Chose Seating\n");
+                break;
+            default:
+                sb.Append("\n");
+                break;
+        }
+    }
 
 
     void OnApplicationQuit()
     {
-        System.IO.File.AppendAllText(
-
-            @"C:\Users\tametaj1\Desktop\Logs\" + System.DateTime.Now.Ticks.ToString() + "trialChoices.csv",
+        System.IO.File.AppendAllText("Data/trialChoices-"+ System.DateTime.Now.Ticks + ".csv",
             sb.ToString()
 
             );

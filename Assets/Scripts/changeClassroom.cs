@@ -4,69 +4,81 @@ using UnityEngine;
 
 public class changeClassroom : MonoBehaviour
 {
-    public GameObject camera, position1, position2;
-    public int classRoomCounter = 1;
-    public int classRoomSelector,
-        colorSelector,
-        seatSelector;
+    public GameObject camera;
+    public int selectionStep;
+    public int 
+        classRoomSelector, // the "step" of the selection process
+        colorSelector, // the id associated with the color chosen
+        seatSelector; // the seat that had been taken
+
     public Material material1, material2, material3;
-    public GameObject mPosition1, mPosition2, mPosition3, mPosition4, mPosition5;
-    public GameObject lPosition1, lPosition2, lPosition3, lPosition4, lPosition5;
-    public GameObject[] mPositions, lPositions;
+    public GameObject[] cameraPositions; // for step 1
+    public GameObject[] mediumChairs; // chair positions for step 3
+    public GameObject[] lectureChairs;
     public TextMesh promptText; // prompt text object
+    public Color color1, color2, color3, color4, color5;
+
+    private GameObject gameController;
+    private choiceRecorder recorder;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        gameController = GameObject.Find("GameController");
+        recorder = gameController.GetComponent<choiceRecorder>();
         promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
 
-        promptText.text = "Use The Arrow Keys To Select\n" +
-            "A Classroom That You Like!\n" +
-            "Press the Space Bar when you\n" +
-            "are finished.";
-        classRoomCounter = 1;
+      
         seatSelector = 1;
-    }
 
+        selectionStep = 0;
+
+        mediumChairs = GameObject.FindGameObjectsWithTag("MediumDesk");
+        lectureChairs = GameObject.FindGameObjectsWithTag("LectureDesk");
+        cameraPositions = GameObject.FindGameObjectsWithTag("previewPos");
+
+        classRoomSelector = 1;
+
+        promptText.text = "Press any button to begin.";
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        GameObject[] mPositions = new GameObject[]{ mPosition1, mPosition2, mPosition3, mPosition4, mPosition5 };
-        GameObject[] lPositions = new GameObject[]{ lPosition1, lPosition2, lPosition3, lPosition4, lPosition5 };
         if (Input.GetKeyDown("space")) // The actual selection process.
         {
+            if (selectionStep == 1)
+                recorder.choseRecord(selectionStep, classRoomSelector);
+            if (selectionStep == 2)
+                recorder.choseRecord(selectionStep, colorSelector);
+            if (selectionStep == 3)
+                recorder.choseRecord(selectionStep, seatSelector);
 
-            classRoomCounter++;
-
-            if (classRoomCounter == 4)
+            if (selectionStep >= 4)
             {
                 promptText.text = "";
-
             }
+            
+            selectionStep=selectionStep++;
         }
 
 
-        switch (classRoomCounter)
+        switch (selectionStep)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
+
+                promptText.text = "Use The Arrow Keys To Select\n" +
+          "A Classroom That You Like!\n" +
+          "Press the Space Bar when you\n" +
+          "are finished.";
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     classRoomSelector++;
-                    if (classRoomSelector > 2)
+                    if (classRoomSelector > cameraPositions.Length)
                         classRoomSelector = 1;
-
-                    if (classRoomSelector == 1)
-                    {
-                        camera.transform.position = position1.transform.position;
-                        camera.transform.rotation = position1.transform.rotation;
-                        camera.transform.Rotate(0, 90f, 0);
-                    }
-                    if (classRoomSelector == 2)
-                    {
-                        camera.transform.position = position2.transform.position;
-                        camera.transform.rotation = position1.transform.rotation;
-                    }
+                
+                    camera.transform.position = cameraPositions[classRoomSelector-1].transform.position;
+                    camera.transform.rotation = cameraPositions[classRoomSelector-1].transform.rotation;
                 }
             break;
 
@@ -77,11 +89,6 @@ public class changeClassroom : MonoBehaviour
           "are finished.";
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
-                    Color color1 = new Color(255f, 255f, 255f);
-                    Color color2 = new Color(255f, 255f, 255f);
-                    Color color3 = new Color(255f, 255f, 255f);
-                    Color color4 = new Color(255f, 255f, 255f);
-                    Color color5 = new Color(255f, 255f, 255f);
                     if (Input.GetKeyDown("right"))
                         colorSelector++;
                     if (Input.GetKeyDown("left"))
@@ -93,29 +100,29 @@ public class changeClassroom : MonoBehaviour
                     switch (colorSelector)
                     {
                         case 1:
-                            material1.color = Color.white;
-                            material2.color = Color.white;
-                            material3.color = Color.white;
+                            material1.color = color1;
+                            material2.color = color1;
+                            material3.color = color1;
                             break;
                         case 2:
-                            material1.color = Color.black;
-                            material2.color = Color.black;
-                            material3.color = Color.black;
+                            material1.color = color2;
+                            material2.color = color2;
+                            material3.color = color2;
                             break;
                         case 3:
-                            material1.color = Color.red;
-                            material2.color = Color.red;
-                            material3.color = Color.red;
+                            material1.color = color3;
+                            material2.color = color3;
+                            material3.color = color3;
                             break;
                         case 4:
-                            material1.color = Color.blue;
-                            material2.color = Color.blue;
-                            material3.color = Color.blue;
+                            material1.color = color4;
+                            material2.color = color4;
+                            material3.color = color4;
                             break;
                         case 5:
-                            material1.color = Color.magenta;
-                            material2.color = Color.magenta;
-                            material3.color = Color.magenta;
+                            material1.color = color5;
+                            material2.color = color5;
+                            material3.color = color5;
                             break;
                     }
                 }
@@ -132,22 +139,34 @@ public class changeClassroom : MonoBehaviour
                         seatSelector++;
                     if (Input.GetKeyDown("left"))
                         seatSelector--;
-                    if (seatSelector < 0) // selection between the five total choices for the classroom seating positions
-                        seatSelector = 0;
-                    if (seatSelector > 4)
-                        seatSelector = 4;
+                    if(classRoomSelector==1)
+                    {
+                        if (seatSelector < 0)
+                            seatSelector = 0;
+                        if (seatSelector > mediumChairs.Length)
+                            seatSelector = mediumChairs.Length;
+                    }
+                    if (classRoomSelector == 2)
+                    {
+                        if (seatSelector < 0)
+                            seatSelector = 0;
+                        if (seatSelector > lectureChairs.Length)
+                            seatSelector = lectureChairs.Length;
+                    }
+
                     switch (classRoomSelector) 
                     {
                         case 1: // seat positions if chosen the first classroom
                             
-                                camera.transform.position = mPositions[seatSelector].transform.position;
-                                camera.transform.rotation = mPositions[seatSelector].transform.rotation;
-                            camera.transform.Rotate(0, 90f, 0);
+                                camera.transform.position = mediumChairs[seatSelector].transform.position;
+                                camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
+                             camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
                             break;
+
                         case 2: // seat positions if chosen the second classroom
 
-                            camera.transform.position = lPositions[seatSelector].transform.position;
-                            camera.transform.rotation = lPositions[seatSelector].transform.rotation;
+                            camera.transform.position = lectureChairs[seatSelector].transform.position;
+                            camera.transform.rotation = lectureChairs[seatSelector].transform.rotation;
                             // second classroom objects are prefabbed so that they face 90 degrees to the right
                             camera.transform.Rotate(0, -90f, 0);
                             camera.transform.Translate(0, -1f, 0);
