@@ -19,24 +19,26 @@ public class choiceRecorder : MonoBehaviour
     {
 
         classRoomPrompt = GameObject.Find("[CameraRig]");
-         cs = classRoomPrompt.GetComponent<changeClassroom>();
+        cs = classRoomPrompt.GetComponent<changeClassroom>();
 
-        sb.Append("System Time,Elapsed Time,Event,Customization\n");
-        startTime = System.DateTime.Now.Ticks/System.TimeSpan.TicksPerMillisecond;
+        sb.Append("System Time,Elapsed Time,Customization,Event\n");
+        
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-
+     
     }
-
+    public void timerStart()
+    {
+        startTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+    }
     public void choseRecord(int step, int value)
     {
-        long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
 
+        long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
         sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime)+",");
         switch (step)
         {
@@ -54,8 +56,31 @@ public class choiceRecorder : MonoBehaviour
                 sb.Append("\n");
                 break;
         }
+
     }
 
+    public void switchRecord(int step, int value)
+    {
+        long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+
+        sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime) + ",");
+        switch (step)
+        {
+
+            case 1:
+                sb.Append(value + ", Switched Classroom\n");
+                break;
+            case 2:
+                sb.Append(value + ", Switched Color\n");
+                break;
+            case 3:
+                sb.Append(value + ", Switched Seating\n");
+                break;
+            default:
+                sb.Append("\n");
+                break;
+        }
+    }
 
     void OnApplicationQuit()
     {

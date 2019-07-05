@@ -5,7 +5,7 @@ using UnityEngine;
 public class changeClassroom : MonoBehaviour
 {
     public GameObject camera;
-    public int selectionStep;
+    public int classRoomCounter;
     public int 
         classRoomSelector, // the "step" of the selection process
         colorSelector, // the id associated with the color chosen
@@ -32,7 +32,7 @@ public class changeClassroom : MonoBehaviour
       
         seatSelector = 1;
 
-        selectionStep = 0;
+        classRoomCounter = 0;
 
         mediumChairs = GameObject.FindGameObjectsWithTag("MediumDesk");
         lectureChairs = GameObject.FindGameObjectsWithTag("LectureDesk");
@@ -43,34 +43,76 @@ public class changeClassroom : MonoBehaviour
         promptText.text = "Press any button to begin.";
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void changeText()
     {
+        switch(classRoomCounter)
+        {
+            case (0):
+                promptText.text = "Press any button to begin.";
+                break;
+            case (1):
+                promptText.text = "Use The Arrow Keys To Select\n" +
+         "A Classroom That You Like!\n" +
+         "Press the Space Bar when you\n" +
+         "are finished.";
+                break;
+            case (2):
+                promptText.text = "Use The Arrow Keys To Select\n" +
+         "A Color That You Like!\n" +
+         "Press the Space Bar when you\n" +
+         "are finished.";
+                break;
+            case (3):
+                promptText.text = "Use The Arrow Keys To Select\n" +
+        "A Seat That You Like!\n" +
+        "Press the Space Bar when you\n" +
+        "are finished.";
+                break;
+            case (4):
+                promptText.text = "Press the Space Bar to begin" +
+                    "the lesson.";
+                break;
+            default:
+                promptText.text = "";
+                break;
+        }
+    }
+    void Update()
+    {
+        changeText();
         if (Input.GetKeyDown("space")) // The actual selection process.
         {
-            if (selectionStep == 1)
-                recorder.choseRecord(selectionStep, classRoomSelector);
-            if (selectionStep == 2)
-                recorder.choseRecord(selectionStep, colorSelector);
-            if (selectionStep == 3)
-                recorder.choseRecord(selectionStep, seatSelector);
+            if (classRoomCounter == 0)
+                recorder.timerStart();
+            if (classRoomCounter == 1)
+                recorder.choseRecord(classRoomCounter, classRoomSelector);
+            if (classRoomCounter == 2)
+                recorder.choseRecord(classRoomCounter, colorSelector);
+            if (classRoomCounter == 3)
+                recorder.choseRecord(classRoomCounter, seatSelector);
 
-            if (selectionStep >= 4)
+            if (classRoomCounter >= 4)
             {
                 promptText.text = "";
             }
-            
-            selectionStep=selectionStep++;
+            classRoomCounter=classRoomCounter+1;
         }
 
+        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
+        {
+            if (classRoomCounter == 1)
+                recorder.switchRecord(classRoomCounter, classRoomSelector);
+            else if (classRoomCounter == 2)
+                recorder.switchRecord(classRoomCounter, colorSelector);
+            else if (classRoomCounter == 3)
+                recorder.switchRecord(classRoomCounter, seatSelector);
+        }
 
-        switch (selectionStep)
+        switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
 
-                promptText.text = "Use The Arrow Keys To Select\n" +
-          "A Classroom That You Like!\n" +
-          "Press the Space Bar when you\n" +
-          "are finished.";
+               
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     classRoomSelector++;
@@ -83,10 +125,7 @@ public class changeClassroom : MonoBehaviour
             break;
 
             case 2: // Changing the Materials of the Classroom Walls
-                promptText.text = "Use The Arrow Keys To Select\n" +
-          "A Color That You Like!\n" +
-          "Press the Space Bar when you\n" +
-          "are finished.";
+               
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     if (Input.GetKeyDown("right"))
@@ -129,10 +168,7 @@ public class changeClassroom : MonoBehaviour
             break;
 
             case 3: // Changing the seating location
-                promptText.text = "Use The Arrow Keys To Select\n" +
-         "A Seat That You Like!\n" +
-         "Press the Space Bar when you\n" +
-         "are finished.";
+               
                 if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
                 {
                     if (Input.GetKeyDown("right"))
