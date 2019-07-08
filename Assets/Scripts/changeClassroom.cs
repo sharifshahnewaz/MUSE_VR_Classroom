@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class changeClassroom : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class changeClassroom : MonoBehaviour
     private GameObject gameController;
     private choiceRecorder recorder;
 
+    public GameObject teacher;
+
+    public GameObject[] teacherPositions; // changes depending on the classRoomSelector
+
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +38,7 @@ public class changeClassroom : MonoBehaviour
       
         seatSelector = 1;
 
-        classRoomCounter = 0;
+        classRoomCounter = 0; // dasgio
 
         mediumChairs = GameObject.FindGameObjectsWithTag("MediumDesk");
         lectureChairs = GameObject.FindGameObjectsWithTag("LectureDesk");
@@ -40,7 +46,8 @@ public class changeClassroom : MonoBehaviour
 
         classRoomSelector = 1;
 
-        promptText.text = "Press any button to begin.";
+        camera.transform.position = cameraPositions[classRoomSelector - 1].transform.position;
+        camera.transform.rotation = cameraPositions[classRoomSelector - 1].transform.rotation;
     }
     // Update is called once per frame
     void changeText()
@@ -69,7 +76,7 @@ public class changeClassroom : MonoBehaviour
         "are finished.";
                 break;
             case (4):
-                promptText.text = "Press the Space Bar to begin" +
+                promptText.text = "Press the Space Bar to begin " +
                     "the lesson.";
                 break;
             default:
@@ -95,7 +102,7 @@ public class changeClassroom : MonoBehaviour
             {
                 promptText.text = "";
             }
-            classRoomCounter=classRoomCounter+1;
+            classRoomCounter++;
         }
 
         if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
@@ -118,9 +125,12 @@ public class changeClassroom : MonoBehaviour
                     classRoomSelector++;
                     if (classRoomSelector > cameraPositions.Length)
                         classRoomSelector = 1;
-                
-                    camera.transform.position = cameraPositions[classRoomSelector-1].transform.position;
-                    camera.transform.rotation = cameraPositions[classRoomSelector-1].transform.rotation;
+
+                    camera.transform.position = cameraPositions[classRoomSelector - 1].transform.position;
+                    camera.transform.rotation = cameraPositions[classRoomSelector - 1].transform.rotation;
+
+                    teacher.transform.position = teacherPositions[classRoomSelector-1].transform.position;
+                    teacher.transform.rotation = teacherPositions[classRoomSelector-1].transform.rotation;
                 }
             break;
 
