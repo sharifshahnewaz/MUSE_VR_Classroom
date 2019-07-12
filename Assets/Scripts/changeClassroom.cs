@@ -211,15 +211,13 @@ public class changeClassroom : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown("right") || Input.GetKeyDown("left") )
-        {
             if (classRoomCounter == 1)
                 recorder.switchRecord(classRoomCounter, classRoomSelector);
             else if (classRoomCounter == 2)
                 recorder.switchRecord(classRoomCounter, colorSelector);
             else if (classRoomCounter == 3)
                 recorder.switchRecord(classRoomCounter, seatSelector);
-        }
+
     }
     void Update()
     {
