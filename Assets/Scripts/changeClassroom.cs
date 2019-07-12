@@ -13,14 +13,17 @@ public class changeClassroom : MonoBehaviour
         seatSelector; // the seat that had been taken
 
     public Material material1, material2, material3;
+
     public GameObject[] cameraPositions; // for step 1
     public GameObject[] mediumChairs; // chair positions for step 3
-    public GameObject[] lectureChairs;
+    public GameObject[] lectureChairs; 
+
     public TextMesh promptText; // prompt text object
     public Color color1, color2, color3, color4, color5;
 
     private GameObject gameController;
     private choiceRecorder recorder;
+    private viveInput vrInput;
 
     public GameObject teacher;
 
@@ -30,15 +33,17 @@ public class changeClassroom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        // load in the scripts from the gamecontroller for choice recording and vive input
         gameController = GameObject.Find("GameController");
         recorder = gameController.GetComponent<choiceRecorder>();
+        vrInput = gameController.GetComponent<viveInput>();
+
         promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
 
       
         seatSelector = 1;
 
-        classRoomCounter = 0; // dasgio
+        classRoomCounter = 0; // what
 
         mediumChairs = GameObject.FindGameObjectsWithTag("MediumDesk");
         lectureChairs = GameObject.FindGameObjectsWithTag("LectureDesk");
@@ -48,47 +53,45 @@ public class changeClassroom : MonoBehaviour
 
         camera.transform.position = cameraPositions[classRoomSelector - 1].transform.position;
         camera.transform.rotation = cameraPositions[classRoomSelector - 1].transform.rotation;
+        promptText.text = "Press any button to begin.";
     }
     // Update is called once per frame
-    void changeText()
+    public void changeText()
     {
-        switch(classRoomCounter)
+        switch(classRoomCounter+1)
         {
-            case (0):
-                promptText.text = "Press any button to begin.";
-                break;
             case (1):
-                promptText.text = "Use The Arrow Keys To Select\n" +
+                promptText.text = "Use The Touchpad To Select\n" +
          "A Classroom That You Like!\n" +
-         "Press the Space Bar when you\n" +
+         "Press the Trigger when you\n" +
          "are finished.";
                 break;
             case (2):
-                promptText.text = "Use The Arrow Keys To Select\n" +
+                promptText.text = "Use The Touchpad To Select\n" +
          "A Color That You Like!\n" +
-         "Press the Space Bar when you\n" +
+         "Press the Trigger when you\n" +
          "are finished.";
                 break;
             case (3):
-                promptText.text = "Use The Arrow Keys To Select\n" +
+                promptText.text = "Use The Touchpad To Select\n" +
         "A Seat That You Like!\n" +
-        "Press the Space Bar when you\n" +
+        "Press the Trigger when you\n" +
         "are finished.";
                 break;
             case (4):
-                promptText.text = "Press the Space Bar to begin " +
-                    "the lesson.";
+                promptText.text = "Press the Trigger\n" +
+                    "to begin the lesson.";
                 break;
             default:
+
                 promptText.text = "";
                 break;
         }
     }
-    void Update()
+   public void stepUpdate()
     {
-        changeText();
-        if (Input.GetKeyDown("space")) // The actual selection process.
-        {
+       // The actual selection process.
+        
             if (classRoomCounter == 0)
                 recorder.timerStart();
             if (classRoomCounter == 1)
@@ -97,31 +100,21 @@ public class changeClassroom : MonoBehaviour
                 recorder.choseRecord(classRoomCounter, colorSelector);
             if (classRoomCounter == 3)
                 recorder.choseRecord(classRoomCounter, seatSelector);
-
-            if (classRoomCounter >= 4)
-            {
-                promptText.text = "";
-            }
+            
             classRoomCounter++;
-        }
+        
+    }
 
-        if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
-        {
-            if (classRoomCounter == 1)
-                recorder.switchRecord(classRoomCounter, classRoomSelector);
-            else if (classRoomCounter == 2)
-                recorder.switchRecord(classRoomCounter, colorSelector);
-            else if (classRoomCounter == 3)
-                recorder.switchRecord(classRoomCounter, seatSelector);
-        }
+
+    public void chooseOption(bool swipedRight)
+    {
 
         switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
 
-               
-                if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
-                {
+
+                
                     classRoomSelector++;
                     if (classRoomSelector > cameraPositions.Length)
                         classRoomSelector = 1;
@@ -129,18 +122,15 @@ public class changeClassroom : MonoBehaviour
                     camera.transform.position = cameraPositions[classRoomSelector - 1].transform.position;
                     camera.transform.rotation = cameraPositions[classRoomSelector - 1].transform.rotation;
 
-                    teacher.transform.position = teacherPositions[classRoomSelector-1].transform.position;
-                    teacher.transform.rotation = teacherPositions[classRoomSelector-1].transform.rotation;
-                }
-            break;
+                    teacher.transform.position = teacherPositions[classRoomSelector - 1].transform.position;
+                    teacher.transform.rotation = teacherPositions[classRoomSelector - 1].transform.rotation;
+                break;
 
             case 2: // Changing the Materials of the Classroom Walls
-               
-                if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
-                {
-                    if (Input.GetKeyDown("right"))
+                
+                    if (Input.GetKeyDown("right")||swipedRight)
                         colorSelector++;
-                    if (Input.GetKeyDown("left"))
+                    if (Input.GetKeyDown("left")||!swipedRight)
                         colorSelector--;
                     if (colorSelector < 0)
                         colorSelector = 0;
@@ -174,18 +164,16 @@ public class changeClassroom : MonoBehaviour
                             material3.color = color5;
                             break;
                     }
-                }
-            break;
+                
+                break;
 
             case 3: // Changing the seating location
-               
-                if (Input.GetKeyDown("right") || Input.GetKeyDown("left"))
-                {
-                    if (Input.GetKeyDown("right"))
+                
+                    if (Input.GetKeyDown("right")||swipedRight)
                         seatSelector++;
-                    if (Input.GetKeyDown("left"))
+                    else if (Input.GetKeyDown("left")||!swipedRight)
                         seatSelector--;
-                    if(classRoomSelector==1)
+                    if (classRoomSelector == 1)
                     {
                         if (seatSelector < 0)
                             seatSelector = 0;
@@ -200,13 +188,13 @@ public class changeClassroom : MonoBehaviour
                             seatSelector = lectureChairs.Length;
                     }
 
-                    switch (classRoomSelector) 
+                    switch (classRoomSelector)
                     {
                         case 1: // seat positions if chosen the first classroom
-                            
-                                camera.transform.position = mediumChairs[seatSelector].transform.position;
-                                camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
-                             camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
+
+                            camera.transform.position = mediumChairs[seatSelector].transform.position;
+                            camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
+                            camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
                             break;
 
                         case 2: // seat positions if chosen the second classroom
@@ -218,9 +206,26 @@ public class changeClassroom : MonoBehaviour
                             camera.transform.Translate(0, -1f, 0);
                             break;
                     }
-                }
+                
                 break;
         }
+
+
+        if (Input.GetKeyDown("right") || Input.GetKeyDown("left") )
+        {
+            if (classRoomCounter == 1)
+                recorder.switchRecord(classRoomCounter, classRoomSelector);
+            else if (classRoomCounter == 2)
+                recorder.switchRecord(classRoomCounter, colorSelector);
+            else if (classRoomCounter == 3)
+                recorder.switchRecord(classRoomCounter, seatSelector);
+        }
+    }
+    void Update()
+    {
+        
+
+
 
     }
 }
