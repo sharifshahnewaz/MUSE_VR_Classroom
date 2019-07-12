@@ -28,7 +28,9 @@ public class TeacherScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             running = true;
-            StartCoroutine("teacherAnimations");
+           // StartCoroutine("teacherAnimations");
+            StartCoroutine("walkRight");
+
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -81,6 +83,24 @@ public class TeacherScript : MonoBehaviour
             yield return new WaitForSeconds(1);
 
             anim.SetBool("Point", false);
+
+            yield return new WaitForSeconds(numSeconds);
+        }
+    }
+
+
+    IEnumerator walkRight()
+    {
+        while (running == true)
+        {
+            Debug.Log(running);
+            int numSeconds = Random.Range(10, 20);
+
+            anim.SetBool("PaceTest2", true);
+
+            yield return new WaitForSeconds(1);
+
+            anim.SetBool("PaceTest2", false);
 
             yield return new WaitForSeconds(numSeconds);
         }
