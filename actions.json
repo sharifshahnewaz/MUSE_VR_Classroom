@@ -41,6 +41,18 @@
       "requirement": "optional"
     },
     {
+      "name": "/actions/default/in/swipeRight",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/swipeLeft",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/touchPad",
+      "type": "vector2"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },

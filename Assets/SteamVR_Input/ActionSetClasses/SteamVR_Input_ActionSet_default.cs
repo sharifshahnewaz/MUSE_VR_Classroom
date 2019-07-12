@@ -89,6 +89,30 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Boolean swipeRight
+        {
+            get
+            {
+                return SteamVR_Actions.default_swipeRight;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean swipeLeft
+        {
+            get
+            {
+                return SteamVR_Actions.default_swipeLeft;
+            }
+        }
+        
+        public virtual SteamVR_Action_Vector2 touchPad
+        {
+            get
+            {
+                return SteamVR_Actions.default_touchPad;
+            }
+        }
+        
         public virtual SteamVR_Action_Vibration Haptic
         {
             get
