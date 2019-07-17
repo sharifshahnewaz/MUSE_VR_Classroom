@@ -68,13 +68,13 @@ public class choiceRecorder : MonoBehaviour
         {
 
             case 1:
-                sb.Append(value + ", Switched Classroom\n");
+                sb.Append(value + ", S. Classroom\n");
                 break;
             case 2:
-                sb.Append(value + ", Switched Color\n");
+                sb.Append(value + ", S. Color\n");
                 break;
             case 3:
-                sb.Append(value + ", Switched Seating\n");
+                sb.Append(value + ", S. Seating\n");
                 break;
             default:
                 sb.Append("\n");

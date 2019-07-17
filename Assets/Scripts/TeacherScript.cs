@@ -28,7 +28,7 @@ public class TeacherScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             running = true;
-           // StartCoroutine("teacherAnimations");
+            StartCoroutine("teacherAnimations");
             StartCoroutine("walkRight");
 
         }

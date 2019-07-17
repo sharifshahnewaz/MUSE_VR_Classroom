@@ -10,7 +10,8 @@ public class changeClassroom : MonoBehaviour
     public int 
         classRoomSelector, // the "step" of the selection process
         colorSelector, // the id associated with the color chosen
-        seatSelector; // the seat that had been taken
+        seatSelector, // the seat that had been taken
+        studSelector; // the student group that's being used
 
     public Material material1, material2, material3;
 
@@ -29,7 +30,8 @@ public class changeClassroom : MonoBehaviour
 
     public GameObject[] teacherPositions; // changes depending on the classRoomSelector
 
-   
+
+    private StudentFiller populator;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,8 @@ public class changeClassroom : MonoBehaviour
         gameController = GameObject.Find("GameController");
         recorder = gameController.GetComponent<choiceRecorder>();
         vrInput = gameController.GetComponent<viveInput>();
+
+        populator = gameController.GetComponent<StudentFiller>();
 
         promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
 
@@ -79,6 +83,12 @@ public class changeClassroom : MonoBehaviour
         "are finished.";
                 break;
             case (4):
+                promptText.text = "Use The Touchpad To Select\n" +
+                    "What Classmates You Want!\n" +
+                    "Press the Trigger when you\n" +
+                    "are finished.";
+                break;
+            case (5):
                 promptText.text = "Press the Trigger\n" +
                     "to begin the lesson.";
                 break;
@@ -88,14 +98,19 @@ public class changeClassroom : MonoBehaviour
                 break;
         }
     }
+
    public void stepUpdate()
     {
        // The actual selection process.
         
             if (classRoomCounter == 0)
                 recorder.timerStart();
-            if (classRoomCounter == 1)
+        if (classRoomCounter == 1)
+            {
+                populator.GetDesks(classRoomSelector);
+              populator.FillStudents();
                 recorder.choseRecord(classRoomCounter, classRoomSelector);
+            }
             if (classRoomCounter == 2)
                 recorder.choseRecord(classRoomCounter, colorSelector);
             if (classRoomCounter == 3)
@@ -113,8 +128,6 @@ public class changeClassroom : MonoBehaviour
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
 
-
-                
                     classRoomSelector++;
                     if (classRoomSelector > cameraPositions.Length)
                         classRoomSelector = 1;
@@ -177,15 +190,15 @@ public class changeClassroom : MonoBehaviour
                     {
                         if (seatSelector < 0)
                             seatSelector = 0;
-                        if (seatSelector > mediumChairs.Length)
-                            seatSelector = mediumChairs.Length;
+                        if (seatSelector >= mediumChairs.Length)
+                            seatSelector = mediumChairs.Length-1;
                     }
                     if (classRoomSelector == 2)
                     {
                         if (seatSelector < 0)
                             seatSelector = 0;
-                        if (seatSelector > lectureChairs.Length)
-                            seatSelector = lectureChairs.Length;
+                        if (seatSelector >= lectureChairs.Length)
+                            seatSelector = lectureChairs.Length-1;
                     }
 
                     switch (classRoomSelector)
@@ -208,6 +221,42 @@ public class changeClassroom : MonoBehaviour
                     }
                 
                 break;
+
+            case 4: // Changing the types of students
+
+                // how many indexes of students should there be?
+                // 1. 
+
+                if (Input.GetKeyDown("right") || swipedRight)
+                    studSelector++;
+                else if (Input.GetKeyDown("left") || !swipedRight)
+                    studSelector--;
+
+                if (studSelector < 0)
+                    studSelector = 0;
+                else if (studSelector > 6)
+                    studSelector = 6;
+
+                switch (classRoomSelector)
+                {
+                    case 1: // seat positions if chosen the first classroom
+
+                        camera.transform.position = mediumChairs[seatSelector].transform.position;
+                        camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
+                        camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
+                        break;
+
+                    case 2: // seat positions if chosen the second classroom
+
+                        camera.transform.position = lectureChairs[seatSelector].transform.position;
+                        camera.transform.rotation = lectureChairs[seatSelector].transform.rotation;
+                        // second classroom objects are prefabbed so that they face 90 degrees to the right
+                        camera.transform.Rotate(0, -90f, 0);
+                        camera.transform.Translate(0, -1f, 0);
+                        break;
+                }
+
+                break;
         }
 
 
@@ -217,13 +266,6 @@ public class changeClassroom : MonoBehaviour
                 recorder.switchRecord(classRoomCounter, colorSelector);
             else if (classRoomCounter == 3)
                 recorder.switchRecord(classRoomCounter, seatSelector);
-
-    }
-    void Update()
-    {
-        
-
-
 
     }
 }

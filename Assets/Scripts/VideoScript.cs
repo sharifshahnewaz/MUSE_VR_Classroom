@@ -21,11 +21,11 @@ public class VideoScript : MonoBehaviour
         GameObject classRoomPrompt = GameObject.Find("[CameraRig]");
         changeClassroom cs = classRoomPrompt.GetComponent<changeClassroom>();
          counter = cs.classRoomCounter;
-        if (counter>4)
+        if (counter>5)
         {
             vp.Play();
         }
-        if (Input.GetKeyDown(KeyCode.P) && counter >4)
+        if (Input.GetKeyDown(KeyCode.P) && counter >5)
         {
             vp.Pause();
             //vp.Stop();

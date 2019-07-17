@@ -8,6 +8,9 @@ TagManager:
   - MediumDesk
   - previewPos
   - teacherPos
+  - classmatePos
+  - MediumStud
+  - LectureStud
   layers:
   - Default
   - TransparentFX
