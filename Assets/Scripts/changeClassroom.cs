@@ -108,7 +108,7 @@ public class changeClassroom : MonoBehaviour
         if (classRoomCounter == 1)
             {
                 populator.GetDesks(classRoomSelector);
-              populator.FillStudents(classRoomSelector);
+                populator.FillStudents(classRoomSelector);
                 recorder.choseRecord(classRoomCounter, classRoomSelector);
             }
             if (classRoomCounter == 2)

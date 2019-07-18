@@ -15,7 +15,7 @@ public class StudentFiller : MonoBehaviour
     // 6 : profit.
 
     public  GameObject[] studentSeats;
-    public GameObject[] students;
+    public GameObject[] studentModels;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +42,7 @@ public class StudentFiller : MonoBehaviour
     }
     private void Update()
     {
+       print(UnityEngine.Random.Range(0, 2));
     }
     // Update is called once per frame
     public void FillStudents(int classroom)
@@ -54,11 +55,11 @@ public class StudentFiller : MonoBehaviour
                 {
                    
                     GameObject go = (GameObject)Instantiate(
-                        students[UnityEngine.Random.Range(0, 8)],
+                        studentModels[UnityEngine.Random.Range(0, 8)],
                         studentSeats[i].transform.position,
                         studentSeats[i].transform.rotation);
                         go.transform.Rotate(0f,180f,0f);
-                        go.transform.Translate(0f, 0.125f, -0.375f);
+                        go.transform.Translate(0f, 0.125f, -2.125f);
                 }
                 break;
             case 2:
@@ -67,10 +68,10 @@ public class StudentFiller : MonoBehaviour
                 for (int i = 0; i < studentSeats.Length; i++)
                 {
                     GameObject go = (GameObject)Instantiate(
-                         students[UnityEngine.Random.Range(0, 8)],
+                        studentModels[UnityEngine.Random.Range(0, 8)],
                         studentSeats[i].transform.position,
                         studentSeats[i].transform.rotation);
-                    go.transform.Translate(0f, -0.4f,0.125f, Space.Self);
+                    go.transform.Translate(0f, -0.375f,0.125f, Space.Self);
                 }
                 break;
         }
