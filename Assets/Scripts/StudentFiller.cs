@@ -14,8 +14,9 @@ public class StudentFiller : MonoBehaviour
     // 5 : ???.
     // 6 : profit.
 
-    public  GameObject[] studentSeats;
-    public GameObject[] studentModels;
+    public  GameObject[] studentSeats; // the positions of the seats
+    public GameObject[] studentPrefabs; // the prefabs of each of the student models
+    public GameObject[] classMates; // the actual student objects created
     // Start is called before the first frame update
     void Start()
     {
@@ -38,14 +39,67 @@ public class StudentFiller : MonoBehaviour
         }
 
         studentSeats = GameObject.FindGameObjectsWithTag(targetTag);
-
+        classMates = new GameObject[studentSeats.Length];
     }
     private void Update()
     {
        print(UnityEngine.Random.Range(0, 2));
     }
+
+    public void ObliterateStudents()
+    {
+        foreach (GameObject student in classMates)
+            Destroy(student);
+        
+    }
     // Update is called once per frame
-    public void FillStudents(int classroom)
+
+        // indexes of student population have been created. now return a number to designate the appropriate student type
+    private int getStudFromIndex(int index)
+    {
+        int studentId = 0;
+        switch(index)
+        {
+            case 0: // aa
+                studentId = UnityEngine.Random.Range(0, 8);
+                break;
+            case 1: // wa
+                studentId = UnityEngine.Random.Range(4, 8);
+                break;
+            case 2: // wm
+                studentId = UnityEngine.Random.Range(4, 6);
+                break;
+            case 3: // am
+                studentId = UnityEngine.Random.Range(2, 6);
+                break;
+            case 4: // bm
+                studentId = UnityEngine.Random.Range(2, 4);
+                break;
+            case 5: // ba
+                studentId = UnityEngine.Random.Range(0, 4);
+                break;
+            case 6: // bf
+                studentId = UnityEngine.Random.Range(0, 3);
+                break;
+            case 7: // af
+                studentId = UnityEngine.Random.Range(6, 10);
+                if (studentId > 7)
+                    studentId = studentId - 8;
+                break;
+            case 8: // wf
+                studentId = UnityEngine.Random.Range(6, 8);
+                break;
+            case 9: // nobody
+                studentId = 8;
+                break;
+        }
+        return studentId;
+    }
+
+
+
+
+    public void FillStudents(int classroom, int popIndex)
     {
         switch(classroom)
         {
@@ -53,13 +107,13 @@ public class StudentFiller : MonoBehaviour
 
                 for (int i = 0; i < studentSeats.Length; i++)
                 {
-                   
-                    GameObject go = (GameObject)Instantiate(
-                        studentModels[UnityEngine.Random.Range(0, 8)],
+
+                    classMates[i] = (GameObject)Instantiate(
+                        studentPrefabs[getStudFromIndex(popIndex)],
                         studentSeats[i].transform.position,
                         studentSeats[i].transform.rotation);
-                        go.transform.Rotate(0f,180f,0f);
-                        go.transform.Translate(0f, 0.125f, -2.125f);
+                    classMates[i].transform.Rotate(0f,180f,0f);
+                    classMates[i].transform.Translate(0f, 0.125f, -2.125f);
                 }
                 break;
             case 2:
@@ -67,11 +121,11 @@ public class StudentFiller : MonoBehaviour
 
                 for (int i = 0; i < studentSeats.Length; i++)
                 {
-                    GameObject go = (GameObject)Instantiate(
-                        studentModels[UnityEngine.Random.Range(0, 8)],
+                    classMates[i] = (GameObject)Instantiate(
+                        studentPrefabs[UnityEngine.Random.Range(0, 8)],
                         studentSeats[i].transform.position,
                         studentSeats[i].transform.rotation);
-                    go.transform.Translate(0f, -0.375f,0.125f, Space.Self);
+                    classMates[i].transform.Translate(0f, -0.375f,0.125f, Space.Self);
                 }
                 break;
         }

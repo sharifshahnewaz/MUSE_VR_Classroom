@@ -107,11 +107,11 @@ public class changeClassroom : MonoBehaviour
                 recorder.timerStart();
         if (classRoomCounter == 1)
             {
-                populator.GetDesks(classRoomSelector);
-                populator.FillStudents(classRoomSelector);
+                  
                 recorder.choseRecord(classRoomCounter, classRoomSelector);
             }
             if (classRoomCounter == 2)
+
                 recorder.choseRecord(classRoomCounter, colorSelector);
             if (classRoomCounter == 3)
                 recorder.choseRecord(classRoomCounter, seatSelector);
@@ -232,30 +232,20 @@ public class changeClassroom : MonoBehaviour
                 else if (Input.GetKeyDown("left") || !swipedRight)
                     studSelector--;
 
+        
+
                 if (studSelector < 0)
                     studSelector = 0;
-                else if (studSelector > 6)
-                    studSelector = 6;
-
-                switch (classRoomSelector)
+                else if (studSelector > 9)
+                    studSelector = 9;
+                else // doesn't cause it to update when it's against an upper or lower limit
                 {
-                    case 1: // seat positions if chosen the first classroom
-
-                        camera.transform.position = mediumChairs[seatSelector].transform.position;
-                        camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
-                        camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
-                        break;
-
-                    case 2: // seat positions if chosen the second classroom
-
-                        camera.transform.position = lectureChairs[seatSelector].transform.position;
-                        camera.transform.rotation = lectureChairs[seatSelector].transform.rotation;
-                        // second classroom objects are prefabbed so that they face 90 degrees to the right
-                        camera.transform.Rotate(0, -90f, 0);
-                        camera.transform.Translate(0, -1f, 0);
-                        break;
+                    populator.ObliterateStudents(); 
+                    populator.GetDesks(classRoomSelector);
+                    populator.FillStudents(classRoomSelector, studSelector);
                 }
 
+              
                 break;
         }
 
