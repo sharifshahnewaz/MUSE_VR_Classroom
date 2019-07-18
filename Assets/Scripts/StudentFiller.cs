@@ -101,33 +101,27 @@ public class StudentFiller : MonoBehaviour
 
     public void FillStudents(int classroom, int popIndex)
     {
-        switch(classroom)
+
+        for (int i = 0; i < studentSeats.Length; i++)
         {
-            case 1:
 
-                for (int i = 0; i < studentSeats.Length; i++)
-                {
+            classMates[i] = (GameObject)Instantiate(
+                studentPrefabs[getStudFromIndex(popIndex)],
+                studentSeats[i].transform.position,
+                studentSeats[i].transform.rotation);
 
-                    classMates[i] = (GameObject)Instantiate(
-                        studentPrefabs[getStudFromIndex(popIndex)],
-                        studentSeats[i].transform.position,
-                        studentSeats[i].transform.rotation);
-                    classMates[i].transform.Rotate(0f,180f,0f);
-                    classMates[i].transform.Translate(0f, 0.125f, -2.125f);
-                }
+
+            switch (classroom)
+            {
+                case 1:
+                  classMates[i].transform.Rotate(0f, 180f, 0f);
+                  classMates[i].transform.Translate(0f, 0.125f, -2.125f);
                 break;
-            case 2:
 
-
-                for (int i = 0; i < studentSeats.Length; i++)
-                {
-                    classMates[i] = (GameObject)Instantiate(
-                        studentPrefabs[UnityEngine.Random.Range(0, 8)],
-                        studentSeats[i].transform.position,
-                        studentSeats[i].transform.rotation);
-                    classMates[i].transform.Translate(0f, -0.375f,0.125f, Space.Self);
-                }
+                case 2:
+                  classMates[i].transform.Translate(0f, -0.375f, 0.125f, Space.Self);
                 break;
-        }
+            }
+        }   
     }
 }

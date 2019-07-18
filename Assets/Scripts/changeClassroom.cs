@@ -113,9 +113,14 @@ public class changeClassroom : MonoBehaviour
             if (classRoomCounter == 2)
 
                 recorder.choseRecord(classRoomCounter, colorSelector);
-            if (classRoomCounter == 3)
-                recorder.choseRecord(classRoomCounter, seatSelector);
-            
+        if (classRoomCounter == 3)
+        {
+            populator.GetDesks(classRoomSelector);
+            recorder.choseRecord(classRoomCounter, seatSelector);
+            populator.FillStudents(classRoomSelector, studSelector);
+        }
+        if (classRoomCounter == 4)
+            recorder.choseRecord(classRoomCounter, studSelector);
             classRoomCounter++;
         
     }
@@ -241,7 +246,6 @@ public class changeClassroom : MonoBehaviour
                 else // doesn't cause it to update when it's against an upper or lower limit
                 {
                     populator.ObliterateStudents(); 
-                    populator.GetDesks(classRoomSelector);
                     populator.FillStudents(classRoomSelector, studSelector);
                 }
 
@@ -254,8 +258,10 @@ public class changeClassroom : MonoBehaviour
                 recorder.switchRecord(classRoomCounter, classRoomSelector);
             else if (classRoomCounter == 2)
                 recorder.switchRecord(classRoomCounter, colorSelector);
-            else if (classRoomCounter == 3)
-                recorder.switchRecord(classRoomCounter, seatSelector);
+        else if (classRoomCounter == 3)
+            recorder.switchRecord(classRoomCounter, seatSelector);
+        else if (classRoomCounter == 4)
+            recorder.switchRecord(classRoomCounter, studSelector);
 
     }
 }

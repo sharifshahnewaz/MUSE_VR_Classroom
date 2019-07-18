@@ -52,6 +52,9 @@ public class choiceRecorder : MonoBehaviour
             case 3:
                 sb.Append(value + ", Chose Seating\n");
                 break;
+            case 4:
+                sb.Append(value + ", Chose Classmates\n");
+                break;
             default:
                 sb.Append("\n");
                 break;
@@ -75,6 +78,9 @@ public class choiceRecorder : MonoBehaviour
                 break;
             case 3:
                 sb.Append(value + ", S. Seating\n");
+                break;
+            case 4:
+                sb.Append(value + ", S. Classmates\n");
                 break;
             default:
                 sb.Append("\n");
