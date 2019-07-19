@@ -21,7 +21,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: c74674be21ecebc44b77180acd833f68, type: 3}
       propertyPath: m_Name
-      value: bms1
+      value: bms1 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c74674be21ecebc44b77180acd833f68, type: 3}
       propertyPath: m_LocalPosition.x
@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c74674be21ecebc44b77180acd833f68, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: c74674be21ecebc44b77180acd833f68, type: 3}
       propertyPath: m_Controller

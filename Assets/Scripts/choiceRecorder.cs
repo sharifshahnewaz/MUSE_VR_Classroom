@@ -35,6 +35,13 @@ public class choiceRecorder : MonoBehaviour
     {
         startTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
     }
+
+    public void choseRecord(int step)
+    {
+        long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+        sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime) + ", Began Lesson\n");
+    }
+
     public void choseRecord(int step, int value)
     {
 
@@ -50,10 +57,13 @@ public class choiceRecorder : MonoBehaviour
                 sb.Append(value + ", Chose Color\n");
                 break;
             case 3:
-                sb.Append(value + ", Chose Seating\n");
+                sb.Append(value + ", Chose Classmates\n");
                 break;
             case 4:
-                sb.Append(value + ", Chose Classmates\n");
+                sb.Append(value + ", Chose Seating\n");
+                break;
+            case 5:
+                sb.Append(value + ", Began Lesson\n");
                 break;
             default:
                 sb.Append("\n");
@@ -77,10 +87,10 @@ public class choiceRecorder : MonoBehaviour
                 sb.Append(value + ", S. Color\n");
                 break;
             case 3:
-                sb.Append(value + ", S. Seating\n");
+                sb.Append(value + ", S. Classmates\n");
                 break;
             case 4:
-                sb.Append(value + ", S. Classmates\n");
+                sb.Append(value + ", S. Seating\n");
                 break;
             default:
                 sb.Append("\n");

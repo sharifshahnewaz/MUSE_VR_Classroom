@@ -20,7 +20,8 @@ public class changeClassroom : MonoBehaviour
     public GameObject[] lectureChairs; 
 
     public TextMesh promptText; // prompt text object
-    public Color color1, color2, color3, color4, color5;
+
+    public Color color1, color2, color3, color4, color5; // different colors to change the materials
 
     private GameObject gameController;
     private choiceRecorder recorder;
@@ -32,10 +33,14 @@ public class changeClassroom : MonoBehaviour
 
 
     private StudentFiller populator;
+
     // Start is called before the first frame update
+
     void Start()
     {
+
         // load in the scripts from the gamecontroller for choice recording and vive input
+
         gameController = GameObject.Find("GameController");
         recorder = gameController.GetComponent<choiceRecorder>();
         vrInput = gameController.GetComponent<viveInput>();
@@ -58,6 +63,7 @@ public class changeClassroom : MonoBehaviour
         camera.transform.position = cameraPositions[classRoomSelector - 1].transform.position;
         camera.transform.rotation = cameraPositions[classRoomSelector - 1].transform.rotation;
         promptText.text = "Press any button to begin.";
+
     }
     // Update is called once per frame
     public void changeText()
@@ -78,15 +84,16 @@ public class changeClassroom : MonoBehaviour
                 break;
             case (3):
                 promptText.text = "Use The Touchpad To Select\n" +
-        "A Seat That You Like!\n" +
-        "Press the Trigger when you\n" +
-        "are finished.";
-                break;
-            case (4):
-                promptText.text = "Use The Touchpad To Select\n" +
                     "What Classmates You Want!\n" +
                     "Press the Trigger when you\n" +
                     "are finished.";
+                
+                break;
+            case (4):
+                promptText.text = "Use The Touchpad To Select\n" +
+        "A Seat That You Like!\n" +
+        "Press the Trigger when you\n" +
+        "are finished.";
                 break;
             case (5):
                 promptText.text = "Press the Trigger\n" +
@@ -101,27 +108,31 @@ public class changeClassroom : MonoBehaviour
 
    public void stepUpdate()
     {
-       // The actual selection process.
+       // recording the selection process
         
             if (classRoomCounter == 0)
                 recorder.timerStart();
-        if (classRoomCounter == 1)
-            {
-                  
-                recorder.choseRecord(classRoomCounter, classRoomSelector);
-            }
-            if (classRoomCounter == 2)
 
+            if (classRoomCounter == 1)
+                recorder.choseRecord(classRoomCounter, classRoomSelector);
+
+            if (classRoomCounter == 2)
+            {
+                populator.GetDesks(classRoomSelector);
                 recorder.choseRecord(classRoomCounter, colorSelector);
-        if (classRoomCounter == 3)
-        {
-            populator.GetDesks(classRoomSelector);
-            recorder.choseRecord(classRoomCounter, seatSelector);
-            populator.FillStudents(classRoomSelector, studSelector);
-        }
-        if (classRoomCounter == 4)
+                populator.FillStudents(classRoomSelector, studSelector);
+            }
+
+            if (classRoomCounter == 3)
             recorder.choseRecord(classRoomCounter, studSelector);
-            classRoomCounter++;
+
+            if (classRoomCounter == 4)
+            recorder.choseRecord(classRoomCounter, seatSelector);
+
+        if (classRoomCounter == 5)
+                recorder.choseRecord(classRoomCounter);
+
+        classRoomCounter++;
         
     }
 
@@ -185,7 +196,32 @@ public class changeClassroom : MonoBehaviour
                 
                 break;
 
-            case 3: // Changing the seating location
+            case 3: // Changing the types of students
+
+                // how many indexes of students should there be?
+                // 1. 
+
+                if (Input.GetKeyDown("right") || swipedRight)
+                    studSelector++;
+                else if (Input.GetKeyDown("left") || !swipedRight)
+                    studSelector--;
+
+
+
+                if (studSelector < 0)
+                    studSelector = 0;
+                else if (studSelector > 9)
+                    studSelector = 9;
+                else // doesn't cause it to update when it's against an upper or lower limit
+                {
+                    populator.ObliterateStudents();
+                    populator.FillStudents(classRoomSelector, studSelector);
+                }
+
+
+                break;
+
+            case 4: // Changing the seating location
                 
                     if (Input.GetKeyDown("right")||swipedRight)
                         seatSelector++;
@@ -227,30 +263,7 @@ public class changeClassroom : MonoBehaviour
                 
                 break;
 
-            case 4: // Changing the types of students
-
-                // how many indexes of students should there be?
-                // 1. 
-
-                if (Input.GetKeyDown("right") || swipedRight)
-                    studSelector++;
-                else if (Input.GetKeyDown("left") || !swipedRight)
-                    studSelector--;
-
-        
-
-                if (studSelector < 0)
-                    studSelector = 0;
-                else if (studSelector > 9)
-                    studSelector = 9;
-                else // doesn't cause it to update when it's against an upper or lower limit
-                {
-                    populator.ObliterateStudents(); 
-                    populator.FillStudents(classRoomSelector, studSelector);
-                }
-
-              
-                break;
+           
         }
 
 
@@ -259,9 +272,9 @@ public class changeClassroom : MonoBehaviour
             else if (classRoomCounter == 2)
                 recorder.switchRecord(classRoomCounter, colorSelector);
         else if (classRoomCounter == 3)
-            recorder.switchRecord(classRoomCounter, seatSelector);
-        else if (classRoomCounter == 4)
             recorder.switchRecord(classRoomCounter, studSelector);
+        else if (classRoomCounter == 4)
+            recorder.switchRecord(classRoomCounter, seatSelector);
 
     }
 }
