@@ -6,20 +6,24 @@ public class TeacherController : MonoBehaviour
 {
     bool walkBackAllowed =false;
     Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-        StartCoroutine("walk");
     }
 
+    public void startAnimation()
+    {
+        StartCoroutine("walk");
+    }
    
     IEnumerator walk()
     {
         while (true)
         {
             int time = Random.Range(5, 10);
-            if (time > 8)
+            if (time > 7)
             {
                 if (walkBackAllowed == false)
                 {

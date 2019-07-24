@@ -8,32 +8,53 @@ public class choiceRecorder : MonoBehaviour
 {
     // loads in the gameObject CRP and the  changeClassroomScript to access the classroomcounter/choices
     public GameObject classRoomPrompt;
+    public GameObject cameraObject;
     private changeClassroom cs;
 
     private StringBuilder sb = new StringBuilder();
     private double elapsedTime = 0.0f;
 
     private long startTime;
+
+    private IEnumerator headRotation;
+
+    private double percentFocused;
+    private int focusTicks;
+
     // Start is called before the first frame update
     void Start()
     {
 
         classRoomPrompt = GameObject.Find("[CameraRig]");
+        cameraObject = GameObject.Find("Camera");
         cs = classRoomPrompt.GetComponent<changeClassroom>();
 
         sb.Append("System Time,Elapsed Time,Customization,Event\n");
-        
 
+     
+
+    }
+
+    private IEnumerator getHeadRotation(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+
+            long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+
+            sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime) + ",");
+            sb.Append(cameraObject.transform.rotation +"\n");
+        }
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-     
-    }
+
     public void timerStart()
     {
         startTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
+        headRotation = getHeadRotation(1.0f);
+        StartCoroutine(headRotation);
     }
 
     public void choseRecord(int step)
@@ -51,19 +72,22 @@ public class choiceRecorder : MonoBehaviour
         {
 
             case 1:
-                sb.Append(  value + ", Chose Classroom\n");
+                sb.Append(  value + ", SELECTED CLASSROOM\n");
                 break;
             case 2:
-                sb.Append(value + ", Chose Color\n");
+                sb.Append(value + ", SELECTED COLOR\n");
                 break;
             case 3:
-                sb.Append(value + ", Chose Classmates\n");
+                sb.Append(value + ", SELECTED TEACHER\n");
                 break;
             case 4:
-                sb.Append(value + ", Chose Seating\n");
+                sb.Append(value + ", SELECTED CLASSMATES\n");
                 break;
             case 5:
-                sb.Append(value + ", Began Lesson\n");
+                sb.Append(value + ", SELECTED SEAT\n");
+                break;
+            case 6:
+                sb.Append(value + ", BEGAN LESSON\n");
                 break;
             default:
                 sb.Append("\n");
@@ -81,16 +105,19 @@ public class choiceRecorder : MonoBehaviour
         {
 
             case 1:
-                sb.Append(value + ", S. Classroom\n");
+                sb.Append(value + ", Changed Classroom\n");
                 break;
             case 2:
-                sb.Append(value + ", S. Color\n");
+                sb.Append(value + ", Changed Color\n");
                 break;
             case 3:
-                sb.Append(value + ", S. Classmates\n");
+                sb.Append(value + ", Changed Teacher\n");
                 break;
             case 4:
-                sb.Append(value + ", S. Seating\n");
+                sb.Append(value + ", Changed Classmates\n");
+                break;
+            case 5:
+                sb.Append(value + ", Changed Seating\n");
                 break;
             default:
                 sb.Append("\n");

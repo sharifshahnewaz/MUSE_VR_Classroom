@@ -52,9 +52,9 @@ public class StudentFiller : MonoBehaviour
             Destroy(student);
         
     }
-    // Update is called once per frame
 
         // indexes of student population have been created. now return a number to designate the appropriate student type
+
     private int getStudFromIndex(int index)
     {
         int studentId = 0;
