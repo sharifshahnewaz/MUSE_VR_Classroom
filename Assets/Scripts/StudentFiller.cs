@@ -41,10 +41,7 @@ public class StudentFiller : MonoBehaviour
         studentSeats = GameObject.FindGameObjectsWithTag(targetTag);
         classMates = new GameObject[studentSeats.Length];
     }
-    private void Update()
-    {
-       print(UnityEngine.Random.Range(0, 2));
-    }
+
 
     public void ObliterateStudents()
     {
