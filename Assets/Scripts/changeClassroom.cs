@@ -141,8 +141,13 @@ public class changeClassroom : MonoBehaviour
         }
 
         if (classRoomCounter == 4)
+        {
+            camera.transform.position = mediumChairs[1].transform.position;
+            camera.transform.rotation = mediumChairs[1].transform.rotation;
+            camera.transform.Rotate(0, 90f, 0);
+            camera.transform.Translate(0, 0.5f, 0);
             recorder.choseRecord(classRoomCounter, studSelector);
-
+        }
             if (classRoomCounter == 5)
             recorder.choseRecord(classRoomCounter, seatSelector);
 
@@ -286,7 +291,8 @@ public class changeClassroom : MonoBehaviour
 
                             camera.transform.position = mediumChairs[seatSelector].transform.position;
                             camera.transform.rotation = mediumChairs[seatSelector].transform.rotation;
-                            camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
+                        camera.transform.Translate(0, 0.75f, 0);
+                        camera.transform.Rotate(0, 90f, 0); // undoes the rotation one by the earlier thing just in case
                             break;
 
                         case 2: // seat positions if chosen the second classroom

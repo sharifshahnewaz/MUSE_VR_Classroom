@@ -112,7 +112,7 @@ public class StudentFiller : MonoBehaviour
             {
                 case 1:
                   classMates[i].transform.Rotate(0f, 180f, 0f);
-                  classMates[i].transform.Translate(0f, 0.125f, -2.125f);
+                  classMates[i].transform.Translate(0f, 0.125f, -0.524f);
                 break;
 
                 case 2:
