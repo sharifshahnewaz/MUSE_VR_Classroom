@@ -37,12 +37,14 @@ public class changeClassroom : MonoBehaviour
     private StudentFiller populator;
     private teacherChanger instructor;
 
+
     // Start is called before the first frame update
 
     void Start()
     {
 
         // load in the scripts from the gamecontroller for choice recording and vive input
+        
 
         gameController = GameObject.Find("GameController");
         recorder = gameController.GetComponent<choiceRecorder>();

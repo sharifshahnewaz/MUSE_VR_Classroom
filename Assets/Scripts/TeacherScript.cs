@@ -5,6 +5,8 @@ using UnityEngine;
 public class TeacherScript : MonoBehaviour
 {
 
+    AudioSource m_MyAudioSource;
+
     Animator anim;
 
     bool running;

@@ -11,6 +11,8 @@ TagManager:
   - classmatePos
   - MediumStud
   - LectureStud
+  - projectorSurface
+  - teacher
   layers:
   - Default
   - TransparentFX
