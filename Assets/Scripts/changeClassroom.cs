@@ -259,11 +259,11 @@ public class changeClassroom : MonoBehaviour
                     studSelector = 9;
                 else if (studSelector > 9)
                     studSelector = 0;
-                else // doesn't cause it to update when it's against an upper or lower limit
-                {
+                //else // doesn't cause it to update when it's against an upper or lower limit
+                //{
                     populator.ObliterateStudents();
                     populator.FillStudents(classRoomSelector, studSelector);
-                }
+                //}
 
 
                 break;
@@ -277,16 +277,16 @@ public class changeClassroom : MonoBehaviour
                     if (classRoomSelector == 1)
                     {
                         if (seatSelector < 0)
-                            seatSelector = 0;
-                        if (seatSelector >= mediumChairs.Length)
                             seatSelector = mediumChairs.Length-1;
+                        if (seatSelector >= mediumChairs.Length)
+                            seatSelector = 0;
                     }
                     if (classRoomSelector == 2)
                     {
                         if (seatSelector < 0)
-                            seatSelector = 0;
-                        if (seatSelector >= lectureChairs.Length)
                             seatSelector = lectureChairs.Length-1;
+                        if (seatSelector >= lectureChairs.Length)
+                            seatSelector = 0;
                     }
 
                     switch (classRoomSelector)
