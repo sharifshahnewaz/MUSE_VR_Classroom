@@ -80,25 +80,29 @@ public class changeClassroom : MonoBehaviour
                 promptText.text = "Use The Touchpad To Select\n" +
          "A Classroom That You Like!\n" +
          "Press the Trigger when you\n" +
-         "are finished.";
+         "are finished.\n" +
+         "There Are 2 Classrooms To Choose From.";
                 break;
             case (2):
                 promptText.text = "Use The Touchpad To Select\n" +
          "A Color That You Like!\n" +
          "Press the Trigger when you\n" +
-         "are finished.";
+         "are finished.\n" +
+         "There Are 6 Colors To Choose From.";
                 break;
             case (3):
                 promptText.text = "Use The Touchpad To Select\n" +
          "Which Teacher You Like!\n" +
          "Press the Trigger when you\n" +
-         "are finished.";
+         "are finished.\n" +
+         "There Are 4 Teachers To Choose From.";
                 break;
             case (4):
                 promptText.text = "Use The Touchpad To Select\n" +
                     "What Classmates You Want!\n" +
                     "Press the Trigger when you\n" +
-                    "are finished.";
+                    "are finished.\n" +
+                    "There Are 10 Different Student Combinations To Choose From.";
                 
                 break;
             case (5):
@@ -192,9 +196,9 @@ public class changeClassroom : MonoBehaviour
                     if (Input.GetKeyDown("left")||!swipedRight)
                         colorSelector--;
                     if (colorSelector < 0)
-                        colorSelector = 0;
-                    if (colorSelector > 5)
                         colorSelector = 5;
+                    if (colorSelector > 5)
+                        colorSelector = 0;
                     switch (colorSelector)
                     {
                         case 1:
@@ -232,9 +236,9 @@ public class changeClassroom : MonoBehaviour
                 if (Input.GetKeyDown("left") || !swipedRight)
                     teacherSelector--;
                 if (teacherSelector < 0)
-                    teacherSelector = 0;
-                if (teacherSelector > 3)
                     teacherSelector = 3;
+                if (teacherSelector > 3)
+                    teacherSelector = 0;
 
                 instructor.changeTeacher(teacherSelector,classRoomSelector);
 
@@ -252,14 +256,14 @@ public class changeClassroom : MonoBehaviour
 
 
                 if (studSelector < 0)
-                    studSelector = 0;
-                else if (studSelector > 9)
                     studSelector = 9;
-                else // doesn't cause it to update when it's against an upper or lower limit
-                {
+                else if (studSelector > 9)
+                    studSelector = 0;
+                //else // doesn't cause it to update when it's against an upper or lower limit
+                //{
                     populator.ObliterateStudents();
                     populator.FillStudents(classRoomSelector, studSelector);
-                }
+                //}
 
 
                 break;
@@ -273,16 +277,16 @@ public class changeClassroom : MonoBehaviour
                     if (classRoomSelector == 1)
                     {
                         if (seatSelector < 0)
-                            seatSelector = 0;
-                        if (seatSelector >= mediumChairs.Length)
                             seatSelector = mediumChairs.Length-1;
+                        if (seatSelector >= mediumChairs.Length)
+                            seatSelector = 0;
                     }
                     if (classRoomSelector == 2)
                     {
                         if (seatSelector < 0)
-                            seatSelector = 0;
-                        if (seatSelector >= lectureChairs.Length)
                             seatSelector = lectureChairs.Length-1;
+                        if (seatSelector >= lectureChairs.Length)
+                            seatSelector = 0;
                     }
 
                     switch (classRoomSelector)
