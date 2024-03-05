@@ -31,12 +31,14 @@ public class TeacherController : MonoBehaviour
                     yield return new WaitForSeconds(0.1F);
                     walkBackAllowed = true;
                     anim.SetBool("isWalkingRight", false);
+                    continue;
                 }
                 else {
                     anim.SetBool("isWalkingLeft", true);
                     yield return new WaitForSeconds(0.1F);
                     walkBackAllowed = false;
                     anim.SetBool("isWalkingLeft", false);
+                    continue;
                 }
             }
             else
