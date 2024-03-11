@@ -97,6 +97,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4280174460742331083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833005870353827994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43c520a9bad8a3489109c869f454576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 9193534688537307951}
+  provider: 1
+  enableAcceleration: 1
+  enableKeyboardInput: 0
+  enableTouchInput: 0
+  audioLoopback: 1
+  loopbackKey: 108
+  showVisemes: 0
+  debugVisemesKey: 100
+  skipAudioSource: 0
+  gain: 1
+  debugLaughterKey: 104
+  showLaughter: 0
+  laughterScore: 0
 --- !u!114 &4821971728751066630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +133,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a02cf790ef5c94551823cd5c7dfccd88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8810709259316841667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833005870353827994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b97b38f2f1fd24185315141a6c6a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinnedMeshRenderer: {fileID: 8271039062102790209}
+  visemeToBlendTargets: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
+  enableVisemeTestKeys: 0
+  visemeTestKeys: 600000000900000071000000770000006500000072000000740000007900000075000000690000006f000000700000005b0000005d0000005c000000
+  laughterKey: 301
+  laughterBlendTarget: 15
+  laughterThreshold: 0.5
+  laughterMultiplier: 1.5
+  smoothAmount: 70
+--- !u!114 &9008058041022786276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833005870353827994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82aa5cb7a870de440baadff9083be41c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4175113201498748363
@@ -185,7 +244,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: b8756bada09ee61429251723c231d0c4, type: 2}
+      objectReference: {fileID: 9100000, guid: ff519ae543a250b468d79e864a3c1a71, type: 2}
     - target: {fileID: 5866666021909216657, guid: a7cf3184f58ec3b4e9c4de27226b3158,
         type: 3}
       propertyPath: m_ApplyRootMotion
@@ -196,6 +255,12 @@ PrefabInstance:
 --- !u!1 &3833005870353827994 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a7cf3184f58ec3b4e9c4de27226b3158,
+    type: 3}
+  m_PrefabInstance: {fileID: 4175113201498748363}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8271039062102790209 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -3803191605517343350, guid: a7cf3184f58ec3b4e9c4de27226b3158,
     type: 3}
   m_PrefabInstance: {fileID: 4175113201498748363}
   m_PrefabAsset: {fileID: 0}
