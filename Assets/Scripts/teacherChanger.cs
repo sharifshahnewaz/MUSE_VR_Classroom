@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,5 +33,7 @@ public class teacherChanger : MonoBehaviour
             teacherPrefabs[index],
             teacherPositions[location-1].transform.position,
             teacherPositions[location-1].transform.rotation);
+        TeacherController tc = teacher.GetComponent<TeacherController>();
+        tc.smallRoom = !Convert.ToBoolean(location - 1);
     }
 }
