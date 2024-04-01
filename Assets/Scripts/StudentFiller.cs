@@ -58,36 +58,36 @@ public class StudentFiller : MonoBehaviour
         switch(index)
         {
             case 0: // aa
-                studentId = UnityEngine.Random.Range(0, 8);
+                studentId = UnityEngine.Random.Range(0, 20);
                 break;
             case 1: // wa
-                studentId = UnityEngine.Random.Range(4, 8);
+                studentId = UnityEngine.Random.Range(7, 20);
                 break;
             case 2: // wm
-                studentId = UnityEngine.Random.Range(4, 6);
+                studentId = UnityEngine.Random.Range(7, 13);
                 break;
             case 3: // am
-                studentId = UnityEngine.Random.Range(2, 6);
+                studentId = UnityEngine.Random.Range(3, 13);
                 break;
             case 4: // bm
-                studentId = UnityEngine.Random.Range(2, 4);
+                studentId = UnityEngine.Random.Range(3, 7);
                 break;
             case 5: // ba
-                studentId = UnityEngine.Random.Range(0, 4);
+                studentId = UnityEngine.Random.Range(0, 7);
                 break;
             case 6: // bf
                 studentId = UnityEngine.Random.Range(0, 3);
                 break;
             case 7: // af
-                studentId = UnityEngine.Random.Range(6, 10);
-                if (studentId > 7)
-                    studentId = studentId - 8;
+                studentId = UnityEngine.Random.Range(13, 23);
+                if (studentId > 19)
+                    studentId = studentId - 20;
                 break;
             case 8: // wf
-                studentId = UnityEngine.Random.Range(6, 8);
+                studentId = UnityEngine.Random.Range(13, 20);
                 break;
             case 9: // nobody
-                studentId = 8;
+                studentId = 20;
                 break;
         }
         return studentId;
