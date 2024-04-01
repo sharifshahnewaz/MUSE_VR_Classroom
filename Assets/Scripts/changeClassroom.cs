@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
+using UnityEngine.UI;
 using Valve.VR;
 
 public class changeClassroom : MonoBehaviour
@@ -21,6 +23,10 @@ public class changeClassroom : MonoBehaviour
     public GameObject[] lectureChairs; 
 
     public TextMesh promptText; // prompt text object
+    public Image LArrow; //Left Arrow UI object
+    public Image RArrow; //Right Arrow UI object
+
+    public bool customizable; //Whether the classroom parameters are customizable
 
     public Color color1, color2, color3, color4, color5; // different colors to change the materials
 
@@ -160,6 +166,9 @@ public class changeClassroom : MonoBehaviour
 
             teacher = instructor.teacher;
             teacher.GetComponent<TeacherController>().startAnimation();
+            //Remove arrows
+            LArrow.enabled = false;
+            RArrow.enabled = false;
 
             recorder.choseRecord(classRoomCounter);
         }
@@ -171,8 +180,8 @@ public class changeClassroom : MonoBehaviour
 
     public void chooseOption(bool swipedRight)
     {
-
-        switch (classRoomCounter)
+        if(customizable)
+            switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
 
