@@ -9,7 +9,7 @@ public class changeClassroom : MonoBehaviour
 {
     public GameObject camera;
     public int classRoomCounter;
-    public int 
+    public int
         classRoomSelector, // the "step" of the selection process
         colorSelector, // the id associated with the color chosen
         teacherSelector, // the id associated with the instructor chosen
@@ -20,7 +20,7 @@ public class changeClassroom : MonoBehaviour
 
     public GameObject[] cameraPositions; // for step 1
     public GameObject[] mediumChairs; // chair positions for step 3
-    public GameObject[] lectureChairs; 
+    public GameObject[] lectureChairs;
 
     public TextMesh promptText; // prompt text object
     public Image LArrow; //Left Arrow UI object
@@ -50,7 +50,7 @@ public class changeClassroom : MonoBehaviour
     {
 
         // load in the scripts from the gamecontroller for choice recording and vive input
-        
+
 
         gameController = GameObject.Find("GameController");
         recorder = gameController.GetComponent<choiceRecorder>();
@@ -60,7 +60,7 @@ public class changeClassroom : MonoBehaviour
         instructor = gameController.GetComponent<teacherChanger>();
 
         promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
-        
+
 
         seatSelector = 1;
 
@@ -80,7 +80,12 @@ public class changeClassroom : MonoBehaviour
     // Update is called once per frame
     public void changeText()
     {
-        switch(classRoomCounter+1)
+        if (!customizable)
+        {
+            promptText.text = "";
+            return;
+        }
+        switch (classRoomCounter + 1)
         {
             case (1):
                 promptText.text = "Use The Touchpad To Select\n" +
@@ -109,7 +114,7 @@ public class changeClassroom : MonoBehaviour
                     "Press the Trigger when you\n" +
                     "are finished.\n" +
                     "There Are 10 Different Student Combinations To Choose From.";
-                
+
                 break;
             case (5):
                 promptText.text = "Use The Touchpad To Select\n" +
@@ -128,11 +133,38 @@ public class changeClassroom : MonoBehaviour
         }
     }
 
+    public void StartWithDefaults()
+    {
+        recorder.timerStart();
+        recorder.choseRecord(classRoomCounter, classRoomSelector);
+        recorder.choseRecord(classRoomCounter, colorSelector);
+        populator.GetDesks(classRoomSelector);
+        recorder.choseRecord(classRoomCounter, teacherSelector);
+        populator.FillStudents(classRoomSelector, studSelector);
+        camera.transform.position = mediumChairs[1].transform.position;
+        camera.transform.rotation = mediumChairs[1].transform.rotation;
+        camera.transform.Rotate(0, 90f, 0);
+        camera.transform.Translate(0, 0.5f, 0);
+        recorder.choseRecord(classRoomCounter, studSelector);
+        recorder.choseRecord(classRoomCounter, seatSelector);
+        teacher = instructor.teacher;
+        teacher.GetComponent<TeacherController>().startAnimation();
+        //Remove arrows
+        LArrow.enabled = false;
+        RArrow.enabled = false;
+
+        recorder.choseRecord(classRoomCounter);
+    }
+
    public void stepUpdate()
     {
-       // recording the selection process
-        
-            if (classRoomCounter == 0)
+        // recording the selection process
+
+        /*if (!customizable)
+            classRoomCounter = 6;
+            StartWithDefaults();*/
+
+        if (classRoomCounter == 0)
                 recorder.timerStart();
 
             if (classRoomCounter == 1)
@@ -180,8 +212,10 @@ public class changeClassroom : MonoBehaviour
 
     public void chooseOption(bool swipedRight)
     {
-        if(customizable)
-            switch (classRoomCounter)
+        //if (!customizable)
+           // classRoomCounter = 6;
+
+        switch (classRoomCounter)
         {
             case 1: // Selecting the Classroom by Changing the Camera Position
 
