@@ -9,6 +9,8 @@ public class changeClassroom : MonoBehaviour
 {
     public GameObject camera;
     public int classRoomCounter;
+    public bool Begun = false;
+    public bool studentsInstantiated = false;
     public int
         classRoomSelector, // the "step" of the selection process
         colorSelector, // the id associated with the color chosen
@@ -60,7 +62,8 @@ public class changeClassroom : MonoBehaviour
         instructor = gameController.GetComponent<teacherChanger>();
 
         promptText = GameObject.Find("PrompText").GetComponent<TextMesh>();
-
+        Begun = false;
+        studentsInstantiated = false;
 
         seatSelector = 1;
 
@@ -123,8 +126,8 @@ public class changeClassroom : MonoBehaviour
         "are finished.";
                 break;
             case (6):
-                promptText.text = "Press the Trigger\n" +
-                    "to begin the lesson.";
+                promptText.text = "Lesson will begin in 20 seconds.\n" +
+                    "Feel free to look around.";
                 break;
             default:
 
@@ -136,33 +139,37 @@ public class changeClassroom : MonoBehaviour
     public void StartWithDefaults()
     {
         recorder.timerStart();
-        recorder.choseRecord(classRoomCounter, classRoomSelector);
-        recorder.choseRecord(classRoomCounter, colorSelector);
+        recorder.choseRecord(1, classRoomSelector);
+        recorder.choseRecord(2, colorSelector);
         populator.GetDesks(classRoomSelector);
-        recorder.choseRecord(classRoomCounter, teacherSelector);
+        recorder.choseRecord(3, 3);
         populator.FillStudents(classRoomSelector, studSelector);
-        camera.transform.position = mediumChairs[1].transform.position;
-        camera.transform.rotation = mediumChairs[1].transform.rotation;
+        camera.transform.position = mediumChairs[2].transform.position;
+        camera.transform.rotation = mediumChairs[2].transform.rotation;
         camera.transform.Rotate(0, 90f, 0);
         camera.transform.Translate(0, 0.5f, 0);
-        recorder.choseRecord(classRoomCounter, studSelector);
-        recorder.choseRecord(classRoomCounter, seatSelector);
+        recorder.choseRecord(4, studSelector);
+        recorder.choseRecord(5, 2);
+        instructor.changeTeacher(3, 1);
         teacher = instructor.teacher;
         teacher.GetComponent<TeacherController>().startAnimation();
         //Remove arrows
         LArrow.enabled = false;
         RArrow.enabled = false;
 
-        recorder.choseRecord(classRoomCounter);
+        studentsInstantiated = true;
+        StartCoroutine(WaitBeforeStart());
+        //recorder.choseRecord(6);
     }
 
-   public void stepUpdate()
+    public void stepUpdate()
     {
         // recording the selection process
 
-        /*if (!customizable)
+        if (!customizable && !studentsInstantiated) { 
             classRoomCounter = 6;
-            StartWithDefaults();*/
+            StartWithDefaults();
+        }
 
         if (classRoomCounter == 0)
                 recorder.timerStart();
@@ -190,25 +197,42 @@ public class changeClassroom : MonoBehaviour
             camera.transform.Translate(0, 0.5f, 0);
             recorder.choseRecord(classRoomCounter, studSelector);
         }
-            if (classRoomCounter == 5)
-            recorder.choseRecord(classRoomCounter, seatSelector);
-
-        if (classRoomCounter == 6)
+        if (classRoomCounter == 5)
         {
-
-            teacher = instructor.teacher;
-            teacher.GetComponent<TeacherController>().startAnimation();
+            recorder.choseRecord(classRoomCounter, seatSelector);
             //Remove arrows
             LArrow.enabled = false;
             RArrow.enabled = false;
-
-            recorder.choseRecord(classRoomCounter);
+            StartCoroutine(WaitBeforeStart());
         }
+        //if (classRoomCounter == 6)
+        //{
+
+          //  teacher = instructor.teacher;
+          //  teacher.GetComponent<TeacherController>().startAnimation();
+            
+
+          //  recorder.choseRecord(classRoomCounter);
+        //}
 
         classRoomCounter++;
         
     }
 
+    private IEnumerator WaitBeforeStart()
+    {
+        promptText.text = "Lesson will begin in 20 seconds.\n" +
+                    "Feel free to look around.";
+        yield return new WaitForSeconds(20.0f);
+        teacher = instructor.teacher;
+        teacher.GetComponent<TeacherController>().startAnimation();
+
+        promptText.text = "";
+        Begun = true;
+
+
+        recorder.choseRecord(classRoomCounter);
+    }
 
     public void chooseOption(bool swipedRight)
     {

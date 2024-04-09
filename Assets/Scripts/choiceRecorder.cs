@@ -12,6 +12,7 @@ public class choiceRecorder : MonoBehaviour
     private changeClassroom cs;
 
     private StringBuilder sb = new StringBuilder();
+    private StringBuilder rotData = new StringBuilder();
     private double elapsedTime = 0.0f;
 
     private long startTime;
@@ -30,7 +31,7 @@ public class choiceRecorder : MonoBehaviour
         cs = classRoomPrompt.GetComponent<changeClassroom>();
 
         sb.Append("System Time,Elapsed Time,Customization,Event\n");
-
+        rotData.Append("System Time,Elapsed Time, x,y,z\n");
      
 
     }
@@ -43,8 +44,8 @@ public class choiceRecorder : MonoBehaviour
 
             long currentTime = System.DateTime.Now.Ticks / System.TimeSpan.TicksPerMillisecond;
 
-            sb.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime) + ",");
-            sb.Append(cameraObject.transform.rotation +"\n");
+            rotData.Append(System.DateTime.Now.ToString() + "," + (currentTime - startTime) + ",");
+            rotData.Append(cameraObject.transform.rotation.eulerAngles.x + ", " + cameraObject.transform.rotation.eulerAngles.y + ", " + cameraObject.transform.rotation.eulerAngles.z + "\n");
         }
     }
 
@@ -127,9 +128,14 @@ public class choiceRecorder : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        System.IO.File.AppendAllText("Data/trialChoices-"+ System.DateTime.Now.Ticks + ".csv",
+        var currentTime = System.DateTime.Now.Ticks;
+        System.IO.File.AppendAllText("Data/trialChoices-"+ currentTime + ".csv",
             sb.ToString()
 
             );
+        System.IO.File.AppendAllText("Data/headRotationData-" + currentTime + ".csv",
+            rotData.ToString()
+            );
     }
+
 }

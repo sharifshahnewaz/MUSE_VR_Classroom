@@ -28,7 +28,7 @@ public class VideoScript : MonoBehaviour
         GameObject classRoomPrompt = GameObject.Find("[CameraRig]");
         changeClassroom cs = classRoomPrompt.GetComponent<changeClassroom>();
          counter = cs.classRoomCounter;
-        if (counter>6)
+        if (cs.Begun)
         {
             vp.Play();
             teacher = GameObject.FindGameObjectWithTag("teacher");
