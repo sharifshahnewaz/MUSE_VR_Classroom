@@ -36,8 +36,10 @@ public class TeacherController : MonoBehaviour
                     yield return new WaitForSeconds(0.1f);
                     walkBackAllowed = true;
                     anim.SetBool("isWalkingRight", false);
-                    yield return new WaitForSeconds(6.0F);
-                    //transform.position = startPos.transform.position.y;
+                    yield return new WaitForSeconds(2.5F);
+                    transform.rotation = startPos.transform.rotation;
+                    yield return new WaitForSeconds(2.0F);
+                    transform.position = startPos.transform.position;
                     transform.rotation = startPos.transform.rotation;
                     continue;
                 }
